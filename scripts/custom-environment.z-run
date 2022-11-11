@@ -1,0 +1,31 @@
+#!/dev/null
+
+
+
+
+:: rust / features / set / quick / default :: export -- _RUST_FEATURES=default
+:: rust / features / set / quick / minimal :: export -- _RUST_FEATURES=minimal
+
+
+
+
+:: rust / target / set / native :: export -- _RUST_TARGET=native
+:: rust / target / set / x86_64-unknown-linux-gnu :: export -- _RUST_TARGET=x86_64-unknown-linux-gnu
+:: rust / target / set / aarch64-unknown-linux-gnu :: export -- _RUST_TARGET=aarch64-unknown-linux-gnu
+:: rust / target / set / x86_64-unknown-linux-musl :: export -- _RUST_TARGET=x86_64-unknown-linux-musl
+:: rust / target / set / aarch64-unknown-linux-musl :: export -- _RUST_TARGET=aarch64-unknown-linux-musl
+:: rust / target / set / x86_64-unknown-openbsd :: export -- _RUST_TARGET=x86_64-unknown-openbsd
+:: rust / target / set / aarch64-unknown-openbsd :: export -- _RUST_TARGET=aarch64-unknown-openbsd
+:: rust / target / set / x86_64-unknown-freebsd :: export -- _RUST_TARGET=x86_64-unknown-freebsd
+:: rust / target / set / aarch64-unknown-freebsd :: export -- _RUST_TARGET=aarch64-unknown-freebsd
+:: rust / target / set / x86_64-apple-darwin :: export -- _RUST_TARGET=x86_64-apple-darwin
+:: rust / target / set / aarch64-apple-darwin :: export -- _RUST_TARGET=aarch64-apple-darwin
+:: rust / target / set / x86_64-pc-windows-gnu :: export -- _RUST_TARGET=x86_64-pc-windows-gnu
+:: rust / target / set / x86_64-pc-windows-msvc :: export -- _RUST_TARGET=x86_64-pc-windows-msvc
+
+
+
+
+:: rust / linkage / set / dynamic :: export -- _RUST_LINKAGE=dynamic
+:: rust / linkage / set / static :: export -- _RUST_LINKAGE=static
+
