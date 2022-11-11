@@ -1,0 +1,216 @@
+
+################################################################################
+################################################################################
+
+
+
+
+[package]
+
+name = "hyper-starlark-server"
+version = "0.6.0"
+license = "MIT"
+
+edition = "2021"
+rust-version = "1.62"
+resolver = "2"
+publish = false
+
+authors = ["Ciprian Dorin Craciun <ciprian@volution.ro>"]
+repository = "https://github.com/console9/hyper-starlark-server"
+documentation = "https://docs.rs/hyper-starlark-server"
+description = "Experimenting with Starlark and hyper HTTP server."
+
+autobins = false
+autoexamples = false
+autotests = false
+autobenches = false
+
+
+
+
+[lib]
+
+name = "hyper_starlark_server"
+path = "./lib.rs"
+
+
+
+
+[[bin]]
+
+name = "hyper-starlark-server"
+path = "./bin.rs"
+
+
+
+
+################################################################################
+################################################################################
+
+
+
+
+[features]
+
+# meta
+default = ["hss-full"]
+minimal = [
+	"hss-main",
+	"hss-cli",
+	"hss-server-http1",
+	"hss-handler",
+	"hss-exports",
+	"hss-extensions",
+]
+
+# meta
+hss-full = ["hyper-simple-server/hss-full"]
+hss-full-http1 = ["hyper-simple-server/hss-full-http1"]
+hss-full-http2 = ["hyper-simple-server/hss-full-http2"]
+
+# meta
+hss-server-full = ["hyper-simple-server/hss-server-full"]
+hss-server-http1 = ["hyper-simple-server/hss-server-http1"]
+hss-server-http2 = ["hyper-simple-server/hss-server-http2"]
+
+# gate
+hss-cli = ["hyper-simple-server/hss-cli"]
+hss-exports = ["hyper-simple-server/hss-exports"]
+hss-extensions = ["hyper-simple-server/hss-extensions"]
+hss-handler = ["hyper-simple-server/hss-handler"]
+hss-jemalloc = ["hyper-simple-server/hss-jemalloc"]
+hss-mimalloc = ["hyper-simple-server/hss-mimalloc"]
+hss-main = ["hyper-simple-server/hss-main"]
+hss-resources = ["hyper-simple-server/hss-resources"]
+hss-routes = ["hyper-simple-server/hss-routes"]
+hss-runtime = ["hyper-simple-server/hss-runtime"]
+hss-runtime-mt = ["hyper-simple-server/hss-runtime-mt"]
+hss-sanitize = ["hyper-simple-server/hss-sanitize"]
+hss-server-debug-jemalloc = ["hyper-simple-server/hss-server-debug-jemalloc"]
+hss-server-debug-strace = ["hyper-simple-server/hss-server-debug-strace"]
+hss-server-mt = ["hyper-simple-server/hss-server-mt"]
+hss-server-sanitize = ["hyper-simple-server/hss-server-sanitize"]
+hss-server-profiling = ["hyper-simple-server/hss-server-profiling"]
+hss-tls-native = ["hyper-simple-server/hss-tls-native"]
+hss-tls-rust = ["hyper-simple-server/hss-tls-rust"]
+
+
+
+
+################################################################################
+################################################################################
+
+
+
+
+[dependencies]
+
+hyper-simple-server = { version = "0.6.0", default-features = false, optional = true }
+
+starlark = { version = "0.9.0-pre", default-features = false, optional = false }
+
+vrl-errors = { version = "*", default-features = false, features = [] }
+
+
+
+
+################################################################################
+################################################################################
+
+
+
+
+[profile.dev]
+incremental = true
+codegen-units = 1024
+opt-level = 0
+lto = "off"
+debug = 2
+debug-assertions = true
+overflow-checks = true
+panic = "unwind"
+
+[profile.test]
+incremental = true
+codegen-units = 1024
+opt-level = 0
+lto = "off"
+debug = 2
+debug-assertions = true
+overflow-checks = true
+
+[profile.release]
+incremental = false
+codegen-units = 1
+opt-level = 3
+lto = "fat"
+debug = 1
+debug-assertions = false
+overflow-checks = true
+panic = "abort"
+
+[profile.bench]
+incremental = false
+codegen-units = 1
+opt-level = 3
+lto = "fat"
+debug = 1
+debug-assertions = false
+overflow-checks = true
+
+
+[profile.dev.package."*"]
+incremental = false
+codegen-units = 1
+opt-level = 3
+debug = 2
+debug-assertions = true
+overflow-checks = true
+
+
+[profile.dev.build-override]
+incremental = false
+codegen-units = 1
+opt-level = 3
+debug = 2
+debug-assertions = true
+overflow-checks = true
+
+
+[profile.release.build-override]
+incremental = false
+codegen-units = 1
+opt-level = 3
+debug = 1
+debug-assertions = false
+overflow-checks = true
+
+
+
+
+################################################################################
+################################################################################
+
+
+
+
+[patch.crates-io]
+
+# hyper-simple-server = { git = "https://github.com/console9/hyper-simple-server", tag = "v0.6.1" }
+# vrl-errors = { git = "https://github.com/volution/volution-rust-libraries", tag = "v0.1.1" }
+
+# hyper-simple-server = { git = "https://github.com/console9/hyper-simple-server", branch = "console9" }
+# vrl-errors = { git = "https://github.com/volution/volution-rust-libraries", branch = "console9" }
+
+hyper-simple-server = { path = "../../hyper-simple-server/sources" }
+vrl-errors = { path = "../../volution-rust-libraries/sources/errors" }
+
+starlark = { git = "https://github.com/facebookexperimental/starlark-rust", rev = "38a4406ff0e29f29e2d100b1d8e8caf8e756f9d6" }
+
+
+
+
+################################################################################
+################################################################################
+
