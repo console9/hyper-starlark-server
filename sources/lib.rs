@@ -11,10 +11,12 @@ mod star {
 		
 		environment::Globals,
 		environment::Module,
+		environment::FrozenModule,
 		
 		eval::Evaluator,
 		
 		values::Value,
+		values::OwnedFrozenValue,
 		values::Heap,
 		values::list::List,
 		values::dict::Dict,
@@ -61,74 +63,129 @@ use ::vrl_preludes::std_plus_extras::*;
 
 pub fn main () -> MainResult {
 	
+	let mut _source_path = String::from ("");
 	
+	let _prepare_extensions = [
+			hss::CliArgument::String (&mut _source_path, "--handler", "path to Starlark handler source"),
+		];
+	let _configuration = hss::prepare_configuration_with_extensions (None, _prepare_extensions, None) ?;
 	
-	
-	let _code = include_str! ("./hello.star");
-	let _code = _code.to_owned ();
-	
-	let _dialect = star::Dialect {
-			
-			enable_def : true,
-			enable_lambda : true,
-			enable_keyword_only_arguments : true,
-			enable_types : star::DialectTypes::Enable,
-			enable_tabs : true,
-			
-			enable_top_level_stmt : false,
-			
-			enable_load : false,
-			enable_load_reexport : false,
+	let _source = if _source_path.is_empty () {
+			let _source = include_str! ("./debug.star");
+			Cow::Borrowed (_source)
+		} else {
+			let _source_path = Path::new (&_source_path);
+			let _source_data = fs::read (_source_path) .else_wrap (0x9b128523) ?;
+			let _source = String::from_utf8 (_source_data) .else_wrap (0x8d89a350) ?;
+			Cow::Owned (_source)
 		};
 	
-	let _ast = star::AstModule::parse ("__main__", _code, &_dialect) .anyerr () .else_wrap (0xd8d5a76c) ?;
+	let _handler = StarlarkHandler::new (&_source) ?;
+	let _handler = Arc::new (_handler);
 	
-	let _globals = star::Globals::extended ();
+	return hss::run_with_handler (_handler, _configuration);
+}
+
+
+
+
+
+
+
+
+pub struct StarlarkHandler {
 	
-	let _module = star::Module::new ();
+	pub module : star::FrozenModule,
+	pub main : star::OwnedFrozenValue,
+}
+
+
+impl StarlarkHandler {
 	
-	let mut _evaluator = star::Evaluator::new (&_module);
 	
-	let _outcome = _evaluator.eval_module (_ast, &_globals) .anyerr () .else_wrap (0x90367326) ?;
-	assert! (_outcome.is_none ());
+	pub fn new (_source : &str) -> MainResult<StarlarkHandler> {
+		
+		let _source = _source.to_owned ();
+		
+		let _dialect = star::Dialect {
+				
+				enable_def : true,
+				enable_lambda : true,
+				enable_keyword_only_arguments : true,
+				enable_types : star::DialectTypes::Enable,
+				enable_tabs : true,
+				
+				enable_top_level_stmt : false,
+				
+				enable_load : false,
+				enable_load_reexport : false,
+			};
+		
+		let _ast = star::AstModule::parse ("__main__", _source, &_dialect) .anyerr () .else_wrap (0xd8d5a76c) ?;
+		
+		let _globals = star::Globals::extended ();
+		
+		let _module = star::Module::new ();
+		
+		let mut _evaluator = star::Evaluator::new (&_module);
+		
+		let _outcome = _evaluator.eval_module (_ast, &_globals) .anyerr () .else_wrap (0x90367326) ?;
+		if ! _outcome.is_none () {
+			fail! (0x45f44f7d, "invalid module evaluation value");
+		}
+		
+		let _module = _module.freeze () .anyerr () .else_wrap (0xcb296b53) ?;
+		
+		let _main = _module.get ("main") .anyerr () .else_wrap (0x53cc39d4) ?;
+		
+		let _handler = StarlarkHandler {
+				module : _module,
+				main : _main,
+			};
+		
+		return Ok (_handler);
+	}
 	
-	let _module = _module.freeze () .anyerr () .else_wrap (0xcb296b53) ?;
 	
-	let _main = _module.get ("main") .anyerr () .else_wrap (0x53cc39d4) ?;
+	pub fn handle (&self, mut _request_http : hss::Request<hss::Body>) -> hss::HandlerResult<hss::Response<hss::Body>> {
+		
+		let mut _request_body_http = hss::Body::empty ();
+		swap (_request_http.body_mut (), &mut _request_body_http);
+		
+		// FIXME!
+		// let _request_body_bytes = hss::hyper::body::to_bytes (_request_body_http) .await ? .to_vec ();
+		let _request_body_bytes = Vec::new ();
+		
+		let _transaction_module = star::Module::new ();
+		let _transaction_heap = _transaction_module.heap ();
+		
+		let _request_body_star = convert_body_bytes_to_star (_request_body_bytes, _transaction_heap) .else_wrap (0x8bb85596) ?;
+		let _request_body_star = Some (_request_body_star);
+		
+		let _request_star = convert_request_http_to_star (&_request_http, _request_body_star, _transaction_heap) .else_wrap (0x8bd1df19) ?;
+		
+		let mut _transaction_evaluator = star::Evaluator::new (&_transaction_module);
+		let _transaction_handler = self.main.value ();
+		
+		let _response_star = _transaction_evaluator.eval_function (_transaction_handler, &[_request_star], &[]) .anyerr () .else_wrap (0x6d5597ec) ?;
+		
+		let _response_http = convert_response_star_to_http (_response_star) .else_wrap (0xb9cd80b7) ?;
+		
+		return Ok (_response_http);
+	}
+}
+
+
+impl hss::Handler for StarlarkHandler {
 	
-	let _handler = move |mut _request_http : hss::Request<hss::Body>| {
-			
-			let mut _request_body_http = hss::Body::empty ();
-			swap (_request_http.body_mut (), &mut _request_body_http);
-			
-			// FIXME!
-			// let _request_body_bytes = hss::hyper::body::to_bytes (_request_body_http) .await ? .to_vec ();
-			let _request_body_bytes = Vec::new ();
-			
-			let _request_module = star::Module::new ();
-			
-			let _heap = _request_module.heap ();
-			
-			let _request_body_star = convert_body_bytes_to_star (_request_body_bytes, _heap) .else_wrap (0x8bb85596) ?;
-			let _request_body_star = Some (_request_body_star);
-			
-			let _request_star = convert_request_http_to_star (&_request_http, _request_body_star, _heap) .else_wrap (0x8bd1df19) ?;
-			
-			let mut _evaluator = star::Evaluator::new (&_request_module);
-			let _main = _main.clone ();
-			let _main = _main.value ();
-			
-			let _response_star = _evaluator.eval_function (_main, &[_request_star], &[]) .anyerr () .else_wrap (0x6d5597ec) ?;
-			
-			let _response_http = convert_response_star_to_http (_response_star) .else_wrap (0xb9cd80b7) ?;
-			
-			return Ok (_response_http);
-		};
+	type Future = hss::futures::future::Ready<hss::HandlerResult<hss::Response<hss::Body>>>;
+	type ResponseBody = hss::Body;
+	type ResponseBodyError = hss::hyper::Error;
 	
-	let _handler = hss::HandlerFnSync::from (_handler);
-	let _handler = ::std::sync::Arc::new (_handler);
-	
-	return hss::main_with_handler (_handler, None, None);
+	fn handle (&self, _request : hss::Request<hss::Body>) -> Self::Future {
+		let _outcome = StarlarkHandler::handle (self, _request);
+		return hss::futures::future::ready (_outcome);
+	}
 }
 
 
