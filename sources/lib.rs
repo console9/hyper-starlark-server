@@ -64,26 +64,91 @@ use ::vrl_preludes::std_plus_extras::*;
 pub fn main () -> MainResult {
 	
 	let mut _source_path = String::from ("");
+	let mut _source_reload = false;
 	
 	let _prepare_extensions = [
-			hss::CliArgument::String (&mut _source_path, "--handler", "path to Starlark handler source"),
+			hss::CliArgument::String (&mut _source_path, "--handler", true, "path to Starlark handler source"),
+			hss::CliArgument::Boolean (&mut _source_reload, "--handler-reload", false, "reload handler source if changed"),
 		];
 	let _configuration = hss::prepare_configuration_with_extensions (None, _prepare_extensions, None) ?;
 	
-	let _source = if _source_path.is_empty () {
-			let _source = include_str! ("./debug.star");
-			Cow::Borrowed (_source)
-		} else {
-			let _source_path = Path::new (&_source_path);
-			let _source_data = fs::read (_source_path) .else_wrap (0x9b128523) ?;
-			let _source = String::from_utf8 (_source_data) .else_wrap (0x8d89a350) ?;
-			Cow::Owned (_source)
-		};
+	let _source_path = Path::new (&_source_path);
+	let _source_data = load_source_from_path (_source_path) ?;
+	let _handler = StarlarkHandler::new (&_source_data) ?;
 	
-	let _handler = StarlarkHandler::new (&_source) ?;
-	let _handler = Arc::new (_handler);
+	if _source_reload {
+		
+		let _handler = StarlarkReloadingHandler::new (_source_path) ?;
+		let _handler = Arc::new (_handler);
+		
+		return hss::run_with_handler (_handler, _configuration);
+		
+	} else {
+		
+		let _handler = Arc::new (_handler);
+		
+		return hss::run_with_handler (_handler, _configuration);
+	}
+}
+
+
+
+
+fn load_source_from_path (_path : &Path) -> MainResult<String> {
+	let _data = fs::read (_path) .else_wrap (0x9b128523) ?;
+	let _string = String::from_utf8 (_data) .else_wrap (0x8d89a350) ?;
+	Ok (_string)
+}
+
+
+
+
+
+
+
+
+pub struct StarlarkReloadingHandler {
 	
-	return hss::run_with_handler (_handler, _configuration);
+	pub source_path : PathBuf,
+}
+
+
+impl StarlarkReloadingHandler {
+	
+	
+	pub fn new (_source_path : &Path) -> MainResult<StarlarkReloadingHandler> {
+		
+		let _source_path = _source_path.to_owned ();
+		
+		let _handler = StarlarkReloadingHandler {
+				source_path : _source_path,
+			};
+		
+		return Ok (_handler);
+	}
+	
+	
+	pub fn handle (&self, mut _request : hss::Request<hss::Body>) -> hss::HandlerResult<hss::Response<hss::Body>> {
+		
+		let _source = load_source_from_path (&self.source_path) .else_wrap (0x45013c4f) ?;
+		
+		let _handler = StarlarkHandler::new (&_source) .else_wrap (0x7b405cb8) ?;
+		
+		return _handler.handle (_request);
+	}
+}
+
+
+impl hss::Handler for StarlarkReloadingHandler {
+	
+	type Future = hss::futures::future::Ready<hss::HandlerResult<hss::Response<hss::Body>>>;
+	type ResponseBody = hss::Body;
+	type ResponseBodyError = hss::hyper::Error;
+	
+	fn handle (&self, _request : hss::Request<hss::Body>) -> Self::Future {
+		let _outcome = StarlarkReloadingHandler::handle (self, _request);
+		return hss::futures::future::ready (_outcome);
+	}
 }
 
 
