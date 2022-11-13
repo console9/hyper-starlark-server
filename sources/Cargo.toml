@@ -111,6 +111,7 @@ hyper-simple-server = { version = "0.6.0", default-features = false, optional = 
 starlark = { version = "0.9.0-pre", default-features = false, optional = false }
 
 vrl-errors = { version = "*", default-features = false, features = [] }
+vrl-preludes = { version = "*", default-features = false, features = [] }
 
 
 
@@ -205,6 +206,7 @@ overflow-checks = true
 
 hyper-simple-server = { path = "../../hyper-simple-server/sources" }
 vrl-errors = { path = "../../volution-rust-libraries/sources/errors" }
+vrl-preludes = { path = "../../volution-rust-libraries/sources/preludes" }
 
 starlark = { git = "https://github.com/facebookexperimental/starlark-rust", rev = "38a4406ff0e29f29e2d100b1d8e8caf8e756f9d6" }
 
