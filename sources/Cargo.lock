@@ -50,19 +50,17 @@ dependencies = [
 [[package]]
 name = "allocative"
 version = "0.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2e99be155533c99b299ea3b05243b1e7c1747d250d61f92e68452cf8d21f3cab"
 dependencies = [
  "allocative_derive",
  "bumpalo",
+ "ctor",
  "hashbrown",
+ "num-bigint",
 ]
 
 [[package]]
 name = "allocative_derive"
 version = "0.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8e80c214d3f3f8a93eb62ce1406047e249ef2467e7bc290b88c08fad7e06f34a"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -200,9 +198,9 @@ checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 
 [[package]]
 name = "clap"
-version = "4.0.23"
+version = "4.0.26"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0eb41c13df48950b20eb4cd0eefa618819469df1bffc49d11e8487c4ba0037e5"
+checksum = "2148adefda54e14492fb9bddcc600b4344c5d1a3123bd666dcb939c6f0e0e57e"
 dependencies = [
  "atty",
  "bitflags",
@@ -474,7 +472,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "bb21c69b9fea5e15dbc1049e4b77145dd0ba1c84019c488102de0dc4ea4b0a27"
 dependencies = [
  "cfg-if",
- "rustix 0.36.1",
+ "rustix 0.36.2",
  "windows-sys 0.42.0",
 ]
 
@@ -584,8 +582,6 @@ dependencies = [
 [[package]]
 name = "gazebo"
 version = "0.8.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d4cfd241cd4d34c5f96bacd2b6ead66171c835713b848162dfedb52d38bf1416"
 dependencies = [
  "gazebo_derive",
 ]
@@ -593,8 +589,6 @@ dependencies = [
 [[package]]
 name = "gazebo_derive"
 version = "0.8.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a4afe97206e1db9c227c539f9757fb8e8197cb44e380231de1eb5b75fdea7267"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -775,9 +769,9 @@ dependencies = [
 
 [[package]]
 name = "indexmap"
-version = "1.9.1"
+version = "1.9.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "10a35a97730320ffe8e2d410b5d3b69279b98d2c14bdb8b70ea89ecf7888d41e"
+checksum = "1885e79c1fc4b10f0e172c475f458b7f7b93061064d98c3293e98c5ba0c8b399"
 dependencies = [
  "autocfg",
  "hashbrown",
@@ -921,11 +915,12 @@ checksum = "fc7fcc620a3bff7cdd7a365be3376c97191aeaccc2a603e600951e452615bf89"
 
 [[package]]
 name = "libmimalloc-sys"
-version = "0.1.27"
+version = "0.1.28"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c37567b180c1af25924b303ddf1ee4467653783440c62360beb2b322a4d93361"
+checksum = "04d1c67deb83e6b75fa4fe3309e09cfeade12e7721d95322af500d3814ea60c9"
 dependencies = [
  "cc",
+ "libc",
 ]
 
 [[package]]
@@ -1030,9 +1025,9 @@ dependencies = [
 
 [[package]]
 name = "mimalloc"
-version = "0.1.31"
+version = "0.1.32"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b32d6a9ac92d0239d7bfa31137fb47634ac7272a3c11bcee91379ac100781670"
+checksum = "9b2374e2999959a7b583e1811a1ddbf1d3a4b9496eceb9746f1192a59d871eca"
 dependencies = [
  "libmimalloc-sys",
 ]
@@ -1447,9 +1442,9 @@ dependencies = [
 
 [[package]]
 name = "rustix"
-version = "0.36.1"
+version = "0.36.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "812a2ec2043c4d6bc6482f5be2ab8244613cac2493d128d36c0759e52a626ab3"
+checksum = "203974af07ea769452490ee8de3e5947971efc3a090dca8a779dd432d3fa46a7"
 dependencies = [
  "bitflags",
  "errno",
@@ -1645,9 +1640,9 @@ dependencies = [
 
 [[package]]
 name = "serde_json"
-version = "1.0.87"
+version = "1.0.88"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6ce777b7b150d76b9cf60d28b55f5847135a003f7d7350c6be7a773508ce7d45"
+checksum = "8e8b3801309262e8184d9687fb697586833e939767aea0dda89f5a8e650e8bd7"
 dependencies = [
  "itoa",
  "ryu",
@@ -1720,7 +1715,6 @@ checksum = "6e63cff320ae2c57904679ba7cb63280a3dc4613885beafb148ee7bf9aa9042d"
 [[package]]
 name = "starlark"
 version = "0.9.0-pre"
-source = "git+https://github.com/facebookexperimental/starlark-rust?rev=38a4406ff0e29f29e2d100b1d8e8caf8e756f9d6#38a4406ff0e29f29e2d100b1d8e8caf8e756f9d6"
 dependencies = [
  "allocative",
  "annotate-snippets",
@@ -1766,7 +1760,6 @@ dependencies = [
 [[package]]
 name = "starlark_derive"
 version = "0.9.0-pre"
-source = "git+https://github.com/facebookexperimental/starlark-rust?rev=38a4406ff0e29f29e2d100b1d8e8caf8e756f9d6#38a4406ff0e29f29e2d100b1d8e8caf8e756f9d6"
 dependencies = [
  "gazebo",
  "proc-macro2",
@@ -1777,7 +1770,6 @@ dependencies = [
 [[package]]
 name = "starlark_map"
 version = "0.9.0-pre"
-source = "git+https://github.com/facebookexperimental/starlark-rust?rev=38a4406ff0e29f29e2d100b1d8e8caf8e756f9d6#38a4406ff0e29f29e2d100b1d8e8caf8e756f9d6"
 dependencies = [
  "allocative",
  "fnv",
@@ -2100,7 +2092,6 @@ checksum = "49874b5167b65d7193b8aba1567f5c7d93d001cafc34600cee003eda787e483f"
 name = "vrl-errors"
 version = "0.1.0"
 dependencies = [
- "anyhow",
  "vrl-preludes",
 ]
 

@@ -198,17 +198,20 @@ overflow-checks = true
 
 [patch.crates-io]
 
+# starlark = { git = "https://github.com/console9/starlark", tag = "v0.9.0" }
 # hyper-simple-server = { git = "https://github.com/console9/hyper-simple-server", tag = "v0.6.1" }
 # vrl-errors = { git = "https://github.com/volution/volution-rust-libraries", tag = "v0.1.1" }
+# vrl-preludes = { git = "https://github.com/volution/volution-rust-libraries", tag = "v0.1.1" }
 
+# starlark = { git = "https://github.com/console9/starlark", branch = "console9" }
 # hyper-simple-server = { git = "https://github.com/console9/hyper-simple-server", branch = "console9" }
 # vrl-errors = { git = "https://github.com/volution/volution-rust-libraries", branch = "console9" }
+# vrl-preludes = { git = "https://github.com/volution/volution-rust-libraries", branch = "console9" }
 
+starlark = { path = "../../starlark/starlark" }
 hyper-simple-server = { path = "../../hyper-simple-server/sources" }
 vrl-errors = { path = "../../volution-rust-libraries/sources/errors" }
 vrl-preludes = { path = "../../volution-rust-libraries/sources/preludes" }
-
-starlark = { git = "https://github.com/facebookexperimental/starlark-rust", rev = "38a4406ff0e29f29e2d100b1d8e8caf8e756f9d6" }
 
 
 
