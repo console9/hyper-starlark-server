@@ -8,18 +8,26 @@
 [package]
 
 name = "hyper-starlark-server"
-version = "0.6.0"
-license = "MIT"
 
-edition = "2021"
-rust-version = "1.62"
-resolver = "2"
+version = "0.6.0"
 publish = false
 
-authors = ["Ciprian Dorin Craciun <ciprian@volution.ro>"]
+edition = "2021"
+resolver = "2"
+rust-version = "1.75"
+
+authors = [
+	"Ciprian Dorin Craciun <ciprian@volution.ro>",
+]
+license = "MIT"
+
+description = "Experimenting with Starlark and hyper HTTP server."
+keywords = []
+categories = []
+
+homepage = "https://github.com/console9/hyper-starlark-server"
 repository = "https://github.com/console9/hyper-starlark-server"
 documentation = "https://docs.rs/hyper-starlark-server"
-description = "Experimenting with Starlark and hyper HTTP server."
 
 autobins = false
 autoexamples = false
@@ -34,6 +42,10 @@ autobenches = false
 name = "hyper_starlark_server"
 path = "./lib.rs"
 
+test = false
+bench = false
+doctest = false
+
 
 
 
@@ -41,6 +53,10 @@ path = "./lib.rs"
 
 name = "hyper-starlark-server"
 path = "./bin.rs"
+
+test = false
+bench = false
+doctest = false
 
 
 
@@ -122,80 +138,6 @@ vrl-preludes = { version = "*", default-features = false, features = [] }
 
 
 
-[profile.dev]
-incremental = true
-codegen-units = 1024
-opt-level = 0
-lto = "off"
-debug = 2
-debug-assertions = true
-overflow-checks = true
-panic = "unwind"
-
-[profile.test]
-incremental = true
-codegen-units = 1024
-opt-level = 0
-lto = "off"
-debug = 2
-debug-assertions = true
-overflow-checks = true
-
-[profile.release]
-incremental = false
-codegen-units = 1
-opt-level = 3
-lto = "fat"
-debug = 1
-debug-assertions = false
-overflow-checks = true
-panic = "abort"
-
-[profile.bench]
-incremental = false
-codegen-units = 1
-opt-level = 3
-lto = "fat"
-debug = 1
-debug-assertions = false
-overflow-checks = true
-
-
-[profile.dev.package."*"]
-incremental = false
-codegen-units = 1
-opt-level = 3
-debug = 2
-debug-assertions = true
-overflow-checks = true
-
-
-[profile.dev.build-override]
-incremental = false
-codegen-units = 1
-opt-level = 3
-debug = 2
-debug-assertions = true
-overflow-checks = true
-
-
-[profile.release.build-override]
-incremental = false
-codegen-units = 1
-opt-level = 3
-debug = 1
-debug-assertions = false
-overflow-checks = true
-
-
-
-
-################################################################################
-################################################################################
-
-
-
-
 [patch.crates-io]
 
 # hyper-simple-server = { git = "https://github.com/console9/hyper-simple-server", tag = "v0.6.1" }
@@ -221,6 +163,105 @@ vrl-cli-arguments = { git = "https://github.com/volution/volution-rust-libraries
 
 starlark = { git = "https://github.com/console9/starlark", branch = "console9" }
 # starlark = { path = "../../starlark/starlark" }
+
+
+
+
+################################################################################
+################################################################################
+
+
+
+
+[profile.dev]
+incremental = true
+codegen-units = 1024
+opt-level = 1
+lto = "off"
+debug = "full"
+debug-assertions = true
+overflow-checks = true
+strip = "none"
+split-debuginfo = "packed"
+rpath = false
+panic = "unwind"
+
+
+[profile.test]
+incremental = true
+codegen-units = 1024
+opt-level = 1
+lto = "off"
+debug = "full"
+debug-assertions = true
+overflow-checks = true
+strip = "none"
+rpath = false
+split-debuginfo = "packed"
+
+
+[profile.release]
+incremental = false
+codegen-units = 1
+opt-level = 3
+lto = "fat"
+debug = "none"
+debug-assertions = false
+overflow-checks = true
+strip = "symbols"
+split-debuginfo = "packed"
+rpath = false
+panic = "abort"
+
+
+[profile.bench]
+incremental = false
+codegen-units = 1
+opt-level = 3
+lto = "fat"
+debug = "none"
+debug-assertions = false
+overflow-checks = true
+strip = "symbols"
+split-debuginfo = "packed"
+rpath = false
+
+
+
+
+[profile.dev.package."*"]
+incremental = true
+codegen-units = 1024
+opt-level = 1
+debug = "full"
+debug-assertions = true
+overflow-checks = true
+strip = "none"
+split-debuginfo = "packed"
+
+
+
+
+[profile.dev.build-override]
+incremental = true
+codegen-units = 1024
+opt-level = 2
+debug = "full"
+debug-assertions = true
+overflow-checks = true
+strip = "none"
+split-debuginfo = "packed"
+
+
+[profile.release.build-override]
+incremental = true
+codegen-units = 1024
+opt-level = 2
+debug = "none"
+debug-assertions = false
+overflow-checks = true
+strip = "symbols"
+split-debuginfo = "packed"
 
 
 
