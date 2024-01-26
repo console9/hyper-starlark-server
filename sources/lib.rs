@@ -41,7 +41,7 @@ use ::hyper_simple_server as hss;
 
 use hss::{
 		
-		ResponseExt as _,
+		HeadersExt as _,
 		ResponseExtBuild as _,
 		
 	};
@@ -186,7 +186,7 @@ impl StarlarkHandler {
 				enable_load_reexport : false,
 			};
 		
-		let _ast = star::AstModule::parse ("__main__", _source, &_dialect) .anyerr () .else_wrap (0xd8d5a76c) ?;
+		let _ast = star::AstModule::parse ("__main__", _source, &_dialect) .wrap_anyhow () .else_wrap (0xd8d5a76c) ?;
 		
 		let _globals = star::Globals::extended ();
 		
@@ -194,14 +194,14 @@ impl StarlarkHandler {
 		
 		let mut _evaluator = star::Evaluator::new (&_module);
 		
-		let _outcome = _evaluator.eval_module (_ast, &_globals) .anyerr () .else_wrap (0x90367326) ?;
+		let _outcome = _evaluator.eval_module (_ast, &_globals) .wrap_anyhow () .else_wrap (0x90367326) ?;
 		if ! _outcome.is_none () {
 			fail! (0x45f44f7d, "invalid module evaluation value");
 		}
 		
-		let _module = _module.freeze () .anyerr () .else_wrap (0xcb296b53) ?;
+		let _module = _module.freeze () .wrap_anyhow () .else_wrap (0xcb296b53) ?;
 		
-		let _main = _module.get ("main") .anyerr () .else_wrap (0x53cc39d4) ?;
+		let _main = _module.get ("main") .wrap_anyhow () .else_wrap (0x53cc39d4) ?;
 		
 		let _handler = StarlarkHandler {
 				module : _module,
@@ -232,7 +232,7 @@ impl StarlarkHandler {
 		let mut _transaction_evaluator = star::Evaluator::new (&_transaction_module);
 		let _transaction_handler = self.main.value ();
 		
-		let _response_star = _transaction_evaluator.eval_function (_transaction_handler, &[_request_star], &[]) .anyerr () .else_wrap (0x6d5597ec) ?;
+		let _response_star = _transaction_evaluator.eval_function (_transaction_handler, &[_request_star], &[]) .wrap_anyhow () .else_wrap (0x6d5597ec) ?;
 		
 		let _response_http = convert_response_star_to_http (_response_star) .else_wrap (0xb9cd80b7) ?;
 		
@@ -401,7 +401,7 @@ pub fn convert_headers_http_to_star <'v> (_headers_http : &hss::HeaderMap, _heap
 		let _name_star = convert_header_name_http_to_star (_name_http, _heap) ?;
 		let _values_star = convert_header_values_http_to_star (&_values_http, _heap) ?;
 		
-		let _name_star_hashed = _name_star.get_hashed () .anyerr () .else_wrap (0x676d34f9) ?;
+		let _name_star_hashed = _name_star.get_hashed () .wrap_anyhow () .else_wrap (0x676d34f9) ?;
 		_headers_star.insert_hashed (_name_star_hashed, _values_star);
 	}
 	
