@@ -1,0 +1,14 @@
+#!/dev/null
+
+
+
+
+&&== env _RUST_CRATE hyper_starlark_server
+&&== env _RUST_BINARY hyper-starlark-server
+&&== env-path _RUST_SOURCES ./sources
+&&== env-path _RUST_OUTPUTS ./.target/${UNAME_NODE}--${UNAME_FINGERPRINT}--${ZRUN_WORKSPACE_IDENTIFIER}
+&&== env-fallback _RUST_FEATURES default
+&&== env-fallback _RUST_TARGET native
+&&== env-fallback _RUST_LINKAGE dynamic
+
+

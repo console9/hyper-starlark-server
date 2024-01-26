@@ -16,42 +16,33 @@
 
 
 
-&&== env _RUST_CRATE hyper_starlark_server
-&&== env _RUST_BINARY hyper-starlark-server
-&&== env-path _RUST_SOURCES ./sources
-&&== env-path _RUST_OUTPUTS ./.target/${UNAME_NODE}--${UNAME_FINGERPRINT}--${ZRUN_WORKSPACE_IDENTIFIER}
-&&== env-fallback _RUST_FEATURES default
-&&== env-fallback _RUST_TARGET native
-&&== env-fallback _RUST_LINKAGE dynamic
+&& _/common/project-common.z-run
+&& _/common/project-sources.z-run
+&& _/common/project-features.z-run
+&& _/common/project-generators.z-run
+&& _/common/project-binary.z-run
+
+&& _/common/rust-environment.z-run
+&& _/common/cargo-dependencies.z-run
+&& _/common/cargo-publish.z-run
+
+&& _/common/tools-cargo.z-run
+&& _/common/tools-watch.z-run
+
+&& _/common/testing-curl.z-run
+&& _/common/testing-wrk.z-run
+&& _/common/testing-nat.z-run
 
 
 
 
-&& ../hyper-simple-server/scripts/project-common.z-run
-&& ../hyper-simple-server/scripts/project-sources.z-run
-&& ../hyper-simple-server/scripts/project-features.z-run
-&& ../hyper-simple-server/scripts/project-generators.z-run
-&& ../hyper-simple-server/scripts/project-binary.z-run
-
-&& ../hyper-simple-server/scripts/cargo-dependencies.z-run
-&& ../hyper-simple-server/scripts/cargo-publish.z-run
-
-&& ../hyper-simple-server/scripts/tools-cargo.z-run
-&& ../hyper-simple-server/scripts/tools-watch.z-run
-
-&& ../hyper-simple-server/scripts/testing-curl.z-run
-&& ../hyper-simple-server/scripts/testing-wrk.z-run
-&& ../hyper-simple-server/scripts/testing-nat.z-run
-
-
-
-
+&& _/custom-configurations.z-run
 && _/custom-environment.z-run
 && _/custom-features.z-run
-&& _/custom-scriptlets.z-run
 
 
 
 
 &&?? ./.git/.local.z-run
+
 
