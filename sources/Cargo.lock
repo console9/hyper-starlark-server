@@ -50,7 +50,7 @@ dependencies = [
 [[package]]
 name = "allocative"
 version = "0.2.0"
-source = "git+https://github.com/console9/starlark?branch=console9#209db780104b53cad11099b25291fd1bf3bb3e93"
+source = "git+https://github.com/console9/starlark?rev=209db780104b53cad11099b25291fd1bf3bb3e93#209db780104b53cad11099b25291fd1bf3bb3e93"
 dependencies = [
  "allocative_derive",
  "bumpalo",
@@ -62,7 +62,7 @@ dependencies = [
 [[package]]
 name = "allocative_derive"
 version = "0.2.0"
-source = "git+https://github.com/console9/starlark?branch=console9#209db780104b53cad11099b25291fd1bf3bb3e93"
+source = "git+https://github.com/console9/starlark?rev=209db780104b53cad11099b25291fd1bf3bb3e93#209db780104b53cad11099b25291fd1bf3bb3e93"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -625,7 +625,7 @@ dependencies = [
 [[package]]
 name = "gazebo"
 version = "0.8.1"
-source = "git+https://github.com/console9/starlark?branch=console9#209db780104b53cad11099b25291fd1bf3bb3e93"
+source = "git+https://github.com/console9/starlark?rev=209db780104b53cad11099b25291fd1bf3bb3e93#209db780104b53cad11099b25291fd1bf3bb3e93"
 dependencies = [
  "gazebo_derive",
 ]
@@ -633,7 +633,7 @@ dependencies = [
 [[package]]
 name = "gazebo_derive"
 version = "0.8.0"
-source = "git+https://github.com/console9/starlark?branch=console9#209db780104b53cad11099b25291fd1bf3bb3e93"
+source = "git+https://github.com/console9/starlark?rev=209db780104b53cad11099b25291fd1bf3bb3e93#209db780104b53cad11099b25291fd1bf3bb3e93"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -774,6 +774,7 @@ dependencies = [
 [[package]]
 name = "hyper-simple-server"
 version = "0.6.0"
+source = "git+https://github.com/console9/hyper-simple-server?branch=development#d588e259dbea9d660418837f013877febfd36b47"
 dependencies = [
  "bytes",
  "cpuprofiler",
@@ -1710,7 +1711,7 @@ checksum = "6e63cff320ae2c57904679ba7cb63280a3dc4613885beafb148ee7bf9aa9042d"
 [[package]]
 name = "starlark"
 version = "0.9.0-pre"
-source = "git+https://github.com/console9/starlark?branch=console9#209db780104b53cad11099b25291fd1bf3bb3e93"
+source = "git+https://github.com/console9/starlark?rev=209db780104b53cad11099b25291fd1bf3bb3e93#209db780104b53cad11099b25291fd1bf3bb3e93"
 dependencies = [
  "allocative",
  "annotate-snippets",
@@ -1756,7 +1757,7 @@ dependencies = [
 [[package]]
 name = "starlark_derive"
 version = "0.9.0-pre"
-source = "git+https://github.com/console9/starlark?branch=console9#209db780104b53cad11099b25291fd1bf3bb3e93"
+source = "git+https://github.com/console9/starlark?rev=209db780104b53cad11099b25291fd1bf3bb3e93#209db780104b53cad11099b25291fd1bf3bb3e93"
 dependencies = [
  "gazebo",
  "proc-macro2",
@@ -1767,7 +1768,7 @@ dependencies = [
 [[package]]
 name = "starlark_map"
 version = "0.9.0-pre"
-source = "git+https://github.com/console9/starlark?branch=console9#209db780104b53cad11099b25291fd1bf3bb3e93"
+source = "git+https://github.com/console9/starlark?rev=209db780104b53cad11099b25291fd1bf3bb3e93#209db780104b53cad11099b25291fd1bf3bb3e93"
 dependencies = [
  "allocative",
  "fnv",

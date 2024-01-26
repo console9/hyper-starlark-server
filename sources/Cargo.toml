@@ -141,28 +141,24 @@ vrl-preludes = { version = "*", default-features = false, features = [] }
 [patch.crates-io]
 
 # hyper-simple-server = { git = "https://github.com/console9/hyper-simple-server", tag = "v0.6.1" }
-# hyper-simple-server = { git = "https://github.com/console9/hyper-simple-server", branch = "console9" }
-# hyper-simple-server = { git = "https://github.com/console9/hyper-simple-server", branch = "development" }
-hyper-simple-server = { path = "../../hyper-simple-server/sources" }
+hyper-simple-server = { git = "https://github.com/console9/hyper-simple-server", branch = "development" }
+# hyper-simple-server = { path = "../.dependencies/hyper-simple-server/sources" }
 
 # vrl-preludes = { git = "https://github.com/volution/volution-rust-libraries", tag = "v0.1.1" }
 # vrl-errors = { git = "https://github.com/volution/volution-rust-libraries", tag = "v0.1.1" }
 # vrl-cli-arguments = { git = "https://github.com/volution/volution-rust-libraries", tag = "v0.1.1" }
 
-# vrl-preludes = { git = "https://github.com/volution/volution-rust-libraries", branch = "console9" }
-# vrl-errors = { git = "https://github.com/volution/volution-rust-libraries", branch = "console9" }
-# vrl-cli-arguments = { git = "https://github.com/volution/volution-rust-libraries", branch = "console9" }
-
 vrl-preludes = { git = "https://github.com/volution/volution-rust-libraries", branch = "development" }
 vrl-errors = { git = "https://github.com/volution/volution-rust-libraries", branch = "development" }
 vrl-cli-arguments = { git = "https://github.com/volution/volution-rust-libraries", branch = "development" }
 
-# vrl-preludes = { path = "../../volution-rust-libraries/sources/preludes" }
-# vrl-errors = { path = "../../volution-rust-libraries/sources/errors" }
-# vrl-cli-arguments = { path = "../../volution-rust-libraries/sources/cli-arguments" }
+# vrl-preludes = { path = "../.dependencies/volution-rust-libraries/sources/preludes" }
+# vrl-errors = { path = "../.dependencies/volution-rust-libraries/sources/errors" }
+# vrl-cli-arguments = { path = "../.dependencies/volution-rust-libraries/sources/cli-arguments" }
 
-starlark = { git = "https://github.com/console9/starlark", branch = "console9" }
-# starlark = { path = "../../starlark/starlark" }
+starlark = { git = "https://github.com/console9/starlark", rev = "209db780104b53cad11099b25291fd1bf3bb3e93" }
+# starlark = { git = "https://github.com/console9/starlark", branch = "development" }
+# starlark = { path = "../.dependencies/starlark/starlark" }
 
 
 
